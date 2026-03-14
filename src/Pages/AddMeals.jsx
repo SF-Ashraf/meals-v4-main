@@ -1,7 +1,30 @@
 import React from "react";
 import LogoImage from "../assets/Images/mealschefLogo.png";
+import { useForm, useFieldArray } from "react-hook-form";
+import { Plus, Trash } from "lucide-react";
 
 function AddMeals() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    control,
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      mealPictures: [],
+    },
+  });
+
+  const {
+    fields: fieldsMealPictures,
+    append: appendMealPictures,
+    remove: removeMealPictures,
+  } = useFieldArray({
+    control,
+    name: "mealPictures",
+  });
   return (
     <div className="container mx-auto">
       <form action="">
@@ -16,7 +39,11 @@ function AddMeals() {
                 name="strMeal"
                 id="strMeal"
                 placeholder="Enter Meal Name"
+                {...register("strMeal", {
+                  required: "fileds required",
+                })}
               />
+              <span className="text-red-500">{errors.strMeal?.message}</span>
             </div>
 
             {/* Fildes -2 */}
@@ -28,7 +55,15 @@ function AddMeals() {
                 name="price"
                 id="price"
                 placeholder="Enter Price Meal"
+                {...register("price", {
+                  required: "fileds required",
+                  min: {
+                    value: 1,
+                    message: "The minimum price for a meal is $1",
+                  },
+                })}
               />
+              <span className="text-red-500">{errors.price?.message}</span>
             </div>
 
             {/* Fildes-3 */}
@@ -40,20 +75,63 @@ function AddMeals() {
                 name="strMealThumb"
                 id="strMealThumb"
                 placeholder="Enter Meal Thumb"
+                {...register("strMealThumb", {
+                  required: "fileds required",
+                  pattern: {
+                    value: /^https?:\/\/.*\.(jpg|jpeg|png|webp)$/,
+                    message: "Enter a valid image URL",
+                  },
+                })}
               />
+              <span className="text-red-500">
+                {errors.strMealThumb?.message}
+              </span>
             </div>
 
             {/* Fildes -4 */}
+            <div>
+            <label htmlFor="mealPictures" className="mb-3">Enter Meal Pictures</label>
+            <div className="fileds-mealPictures flex flex-col p-3 bg-amber-700/50 overflow-y-scroll h-50">
+              {fieldsMealPictures.map((meal, index) => {
+                return (
+                  <div className="" key={meal.id}>
+                    <div className="daynamic-fileds-pictures flex justify-between items-center my-3 ">
+                      <input
+                        type="url"
+                        name="mealPictures"
+                        id="mealPictures"
+                        placeholder="Enter Meal Pictures"
+                        className="border w-96 rounded px-3 py-1"
+                        {...register(`mealPictures.${index}.mealPicture` , {
+                          required: "fileds reqiure",
+                          pattern: {
+                          value: /^https?:\/\/.*\.(jpg|jpeg|png|webp)$/,
+                          message: "Enter a valid image URL",
 
-            <div className="fileds-mealPictures flex flex-col p-3">
-              <label htmlFor="mealPictures">Enter Meal Pictures</label>
-              <input
-                type="url"
-                name="mealPictures"
-                id="mealPictures"
-                placeholder="Enter Meal Pictures"
-              />
+                          }
+
+                        })}
+                      />
+               
+                      <button type="button" className="ms-3 cursor-pointer" onClick={()=> removeMealPictures(index)}>
+                        <Trash />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+              
             </div>
+            <div className="btn-add-daynamic-file my-3">
+                <button
+                  type="button"
+                  className="ms-3 cursor-pointer"
+                  onClick={() => appendMealPictures({ mealPictures: "" })}
+                >
+                  <Plus />
+                </button>
+              </div>
+             </div> 
 
             {/* fildes -5 */}
 
@@ -90,22 +168,45 @@ function AddMeals() {
 
             {/*Start Slider */}
             <div className=" flex overflow-x-scroll py-6 gap-3 bg-gray-200/40 px-3">
-              <img className="w-1/4 object-contain rounded-md cursor-pointer" src={LogoImage} alt="" />
-              <img className="w-1/4 object-contain rounded-md cursor-pointer" src={LogoImage} alt="" />
-              <img className="w-1/4 object-contain rounded-md cursor-pointer" src={LogoImage} alt="" />
-              <img className="w-1/4 object-contain rounded-md cursor-pointer" src={LogoImage} alt="" />
-              <img className="w-1/4 object-contain rounded-md cursor-pointer" src={LogoImage} alt="" />
+              <img
+                className="w-1/4 object-contain rounded-md cursor-pointer"
+                src={LogoImage}
+                alt=""
+              />
+              <img
+                className="w-1/4 object-contain rounded-md cursor-pointer"
+                src={LogoImage}
+                alt=""
+              />
+              <img
+                className="w-1/4 object-contain rounded-md cursor-pointer"
+                src={LogoImage}
+                alt=""
+              />
+              <img
+                className="w-1/4 object-contain rounded-md cursor-pointer"
+                src={LogoImage}
+                alt=""
+              />
+              <img
+                className="w-1/4 object-contain rounded-md cursor-pointer"
+                src={LogoImage}
+                alt=""
+              />
             </div>
 
             <div className="btn-group flex flex-col my-5 gap-3">
-            <button className="bg-sky-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">Add</button>
-            <button className="bg-red-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">Cancel</button>
+              <button className="bg-sky-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
+                Add
+              </button>
+              <button className="bg-red-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
+                Cancel
+              </button>
             </div>
             {/*End Slider */}
           </div>
 
           {/* End Picture & Btn */}
-          
         </div>
       </form>
     </div>
