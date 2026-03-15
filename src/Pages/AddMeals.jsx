@@ -1,7 +1,7 @@
 import React from "react";
 import LogoImage from "../assets/Images/mealschefLogo.png";
 import { useForm, useFieldArray } from "react-hook-form";
-import { Plus, PlusCircle, Trash } from "lucide-react";
+import {  PlusCircle, Trash } from "lucide-react";
 
 function AddMeals() {
   const {
@@ -35,9 +35,13 @@ function AddMeals() {
     control,
     name: "ingredients",
   });
+
+  const onSubmit = (data) =>{
+    console.log(data)
+  }
   return (
     <div className="container mx-auto">
-      <form action="">
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-5 my-15 ">
           {/* Start Fileds */}
           <div className="shadow-2xl rounded-md">
@@ -125,6 +129,7 @@ function AddMeals() {
                             },
                           })}
                         />
+                       
 
                         <button
                           type="button"
@@ -134,6 +139,7 @@ function AddMeals() {
                           <Trash />
                         </button>
                       </div>
+                       <span className="text-red-500">{errors.mealPictures?.[index]?.mealPicture?.message}</span>
                     </div>
                   );
                 })}
@@ -144,7 +150,7 @@ function AddMeals() {
                   className="ms-3 cursor-pointer"
                   onClick={() => appendMealPictures({ mealPictures: "" })}
                 >
-                  <Plus />
+                  <PlusCircle />
                 </button>
               </div>
          
@@ -152,8 +158,8 @@ function AddMeals() {
             {/* fildes -5 */}
 
             <div className="fileds-ingredients flex flex-col p-4 bg-amber-200/50">
-            <p className="font-medium">Enter (+) Button To Add Fields Meal ingredients</p>
-            <div className="overflow-y-scroll h-50">
+            <p className="font-medium my-4 ms-3">Enter (+) Button To Add Fields Meal ingredients</p>
+            <div className="overflow-y-scroll h-50 mx-1">
               {ingredientsFields.map((ingredient, index) => {
                 return (
                   <div key={ingredient.id} className="">
@@ -232,10 +238,10 @@ function AddMeals() {
             </div>
 
             <div className="btn-group flex flex-col my-5 gap-3">
-              <button className="bg-sky-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
+              <button type="submit" className="bg-sky-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
                 Add
               </button>
-              <button className="bg-red-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
+              <button type="button" className="bg-red-500 py-2 text-white font-medium uppercase text-lg rounded-lg cursor-pointer">
                 Cancel
               </button>
             </div>
