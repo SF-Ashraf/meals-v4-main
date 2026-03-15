@@ -106,11 +106,12 @@ function AddMeals() {
             </div>
 
             {/* Fildes -4 */}
-        
-              <div className="fileds-mealPictures flex flex-col p-3 bg-amber-200/50 overflow-y-scroll h-50">
-              <p className="ps-4 font-medium ">
+            <div className="bg-amber-200/50 flex flex-col">
+              <p className="font-medium my-4 ms-3">
                 Enter (+) Button To Add Fields picture Meals
               </p>
+              <div className="fileds-mealPictures flex flex-col p-3  overflow-y-scroll h-50">
+           
                 {fieldsMealPictures.map((meal, index) => {
                   return (
                     <div className="" key={meal.id}>
@@ -144,6 +145,8 @@ function AddMeals() {
                   );
                 })}
               </div>
+
+            </div>
               <div className="btn-add-daynamic-file my-3">
                 <button
                   type="button"
@@ -157,17 +160,17 @@ function AddMeals() {
 
             {/* fildes -5 */}
 
-            <div className="fileds-ingredients flex flex-col p-4 bg-amber-200/50">
+            <div className="fileds-ingredients flex flex-col  bg-amber-200/50">
             <p className="font-medium my-4 ms-3">Enter (+) Button To Add Fields Meal ingredients</p>
-            <div className="overflow-y-scroll h-50 mx-1">
+            <div className="overflow-y-scroll h-50 ">
               {ingredientsFields.map((ingredient, index) => {
                 return (
                   <div key={ingredient.id} className="">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between ms-2">
                       <input
                       type="text"
                       placeholder="enter ingredient meal"
-                      className="border px-2 py-1.5 rounded w-96"
+                      className="border px-2 py-1.5 rounded w-96 my-2"
                       {...register(`ingredients.${index}.ingredient` , {
                         required: "fields require" ,
 
@@ -176,7 +179,7 @@ function AddMeals() {
 
                     <button type="button" onClick={()=> removeIngredients(index)}><Trash /></button>
                     </div>
-                    <p className="text-red-500">{errors.ingredients?.[index]?.ingredient?.message}</p>
+                    <p className="text-red-500 mx-2">{errors.ingredients?.[index]?.ingredient?.message}</p>
                   </div>
                 );
 
